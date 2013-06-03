@@ -1,0 +1,13 @@
+{
+	"name": "NodeEvents",
+	"description": "Allows you to add event details to nodes of type 'event' ",
+
+	"author": "Liam Keily",
+	"authorEmail": "liam@simplywebsites.com",
+	"authorUrl": "http://www.liamkeily.com",
+
+	"dependencies": {
+		"plugins": [
+		]
+	}
+}
