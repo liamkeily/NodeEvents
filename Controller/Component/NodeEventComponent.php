@@ -18,7 +18,7 @@ class NodeEventComponent extends Component {
 		
 		//$controller->NodeEvent->node_id = $controller->Node->id;
 		
-		if($controller->viewVars['type']['Type']['alias'] == 'event'){
+		if(isset($controller->viewVars['type']['Type']['alias']) &&  $controller->viewVars['type']['Type']['alias'] == 'event'){
 		
 			Croogo::hookAdminBox('Nodes/admin_add','Event Date','NodeEvents.NodeEvent');
 			Croogo::hookAdminBox('Nodes/admin_edit','Event Date','NodeEvents.NodeEvent');
