@@ -9,9 +9,9 @@ class NodeEventsSchema extends CakeSchema {
 	}
 
 	public $node_events = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'node_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'event_date' => array('type' => 'date', 'null' => false, 'default' => null),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'key' => 'primary'),
+		'node_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+		'event_date' => array('type' => 'date', 'null' => true, 'default' => null),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB')
 	);

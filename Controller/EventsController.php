@@ -8,7 +8,7 @@ class EventsController extends AppController {
     
     public function index(){
         
-        if($this->request->query['date']){
+        if(isset($this->request->query['date'])){
             $date = $this->request->query['date'];
         }
         else
@@ -20,16 +20,36 @@ class EventsController extends AppController {
         
         $timestamp = strtotime($date);
         $month = date('m',$timestamp);
+	$year = date('Y',$timestamp);
         
             $dayevents = $this->Node->find('all',array('conditions'=>array('NodeEvent.event_date'=>$date,'Node.status'=>1)));
             
-            $monthevents = $this->Node->find('all',array('conditions'=>array('MONTH(NodeEvent.event_date)'=>$month,'Node.status'=>1)));  
+            $monthevents = $this->Node->find('all',array('conditions'=>array('YEAR(NodeEvent.event_date)'=>$year,'MONTH(NodeEvent.event_date)'=>$month,'Node.status'=>1)));  
 
             $upcomingevents = $this->Node->find('all',array('limit'=>10,'order'=>'NodeEvent.event_date asc','conditions'=>array('NodeEvent.event_date >'=>date('Y-m-d',time()),'Node.status'=>1 )));
         
         
             $this->set(compact('today','timestamp','date','title','dayevents','monthevents','upcomingevents'));
         
+    }
+
+    public function jsonevents($month=NULL,$year=NULL){
+	if(!isset($month) || !isset($year)){
+        	$month = date('m',time());
+		$year = date('Y',time());
+	}
+
+        $monthevents = $this->Node->find('all',array('fields'=>array('NodeEvent.event_date','Node.id','Node.title'),'conditions'=>array('YEAR(NodeEvent.event_date)'=>$year,'MONTH(NodeEvent.event_date)'=>$month,'Node.status'=>1))); 
+	
+	$dates = array();
+
+	foreach($monthevents as $event){
+		$dates[] = $event['NodeEvent']['event_date'];
+	}
+
+	
+	$this->set(compact('dates'));
+	$this->layout = 'json/default';
     }
     
 }

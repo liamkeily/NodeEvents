@@ -25,6 +25,12 @@ class NodeEventComponent extends Component {
 			
 		}
 		
+		if(isset($controller->viewVars['node']['Node']['id'])){
+			$node_event = $controller->Node->NodeEvent->find('first',array('conditions'=>array('node_id'=>$controller->viewVars['node']['Node']['id'])));
+
+			$controller->set(compact('node_event'));
+		}
+		
 	}
 
 }
