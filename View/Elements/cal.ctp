@@ -69,7 +69,6 @@ margin-bottom:15px;
 }
 
 .event-day a {
-background:red !important;
-border:1px solid red;
+background:red;
 }
 </style>
