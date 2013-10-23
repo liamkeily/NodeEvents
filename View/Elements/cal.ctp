@@ -10,11 +10,16 @@ events.calendar = $("#cal");
 
 function fetchEventDays(year, month)
 {
-    $.getJSON('<?php echo $this->Html->url(array('plugin'=>'node_events','controller'=>'events','action'=>'jsonevents')); ?>/' + month + '/' + year, function(data){
-	 $.each(data, function(index, value) {
-	    events.eventDays.push(value); // add this date to the freeDays array
-	});
-	events.calendar.datepicker("refresh");		
+    $.ajax({
+	url:'<?php echo $this->Html->url(array('plugin'=>'node_events','controller'=>'events','action'=>'jsonevents')); ?>/' + month + '/' + year,
+	success:function(response){
+		var dates = $.parseJSON(response);
+		events.eventDays = [];
+		for(var i in dates){
+		    events.eventDays.push(dates[i]); // add this date to the freeDays array
+		}
+		events.calendar.datepicker("refresh");		
+	}
     });
 
 }
@@ -25,18 +30,19 @@ function highlightDays(date)
 {
     if(events.init != true){
 	console.log('init');
+	<?php if(!$date) $date = date('Y-m-d',time()); ?>
 	var currentDate = new Date('<?php echo $date; ?>');
 	fetchEventDays(currentDate.getFullYear(),currentDate.getMonth()+1);
 	events.init = true;	
     }
 
-	    for (var i = 0; i < events.eventDays.length; i++) {
-	      if (new Date(events.eventDays[i]).toString() == date.toString()) {
-			return [true, 'event-day', 'no to-do items due']; 
-			// [0] = true | false if this day is selectable, [1] = class to add, [2] = tooltip to display
-	      }
-	    }
-	    return [true, ''];
+    for (var i = 0; i < events.eventDays.length; i++) {
+      if (new Date(events.eventDays[i]).getDate() == date.getDate() && new Date(events.eventDays[i]).getMonth() == date.getMonth()) {
+		return [true, 'event-day', 'no to-do items due']; 
+		// [0] = true | false if this day is selectable, [1] = class to add, [2] = tooltip to display
+      }
+    }
+    return [true, ''];
 
 }
 
