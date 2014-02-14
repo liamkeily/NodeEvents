@@ -7,7 +7,6 @@ class EventsController extends AppController {
     public $uses = array('Nodes.Node');
     
     public function index(){
-        
         if(isset($this->request->query['date'])){
             $date = $this->request->query['date'];
         }
@@ -30,6 +29,17 @@ class EventsController extends AppController {
         
         
             $this->set(compact('today','timestamp','date','title','dayevents','monthevents','upcomingevents'));
+		$listevents = $this->Node->find('all',array(
+			'limit'=>200,
+			'conditions'=>array(
+				'Node.type'=>'event',
+				'NodeEvent.event_date >'=>date('Y-m-d',time())
+			),
+			'order'=>'NodeEvent.event_date asc'
+		));
+
+		$this->set(compact('listevents'));
+
         
     }
 
@@ -51,5 +61,4 @@ class EventsController extends AppController {
 	$this->set(compact('dates'));
 	$this->layout = 'json/default';
     }
-    
 }

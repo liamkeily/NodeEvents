@@ -1,84 +1,32 @@
-<div class="grid-4">
-	<?php
-	echo $this->Layout->sessionFlash();
-	?>
+<?php $this->Nodes->set($node); ?>
 
-	<?php if($date){ ?>
+	<div class="grid_4">
+		<?php echo $this->element('side'); ?>
 
-		<?php if($today){?>
-		<h2>Todays Events</h2>
-		<?php }else{ ?>
-		<h2>Events on <?php echo date('jS F',$timestamp); ?></h2>
-		<?php } ?>
-		
+	</div>
+	
+	<div class="grid_8">
+
 		<?php
-		if(count($dayevents) > 0){
-		
-			foreach($dayevents as $event){
-			?>
-				<p><b><?php echo $this->Html->link($event['Node']['title'],array('plugin'=>'nodes','controller'=>'nodes','action'=>'view','type'=>$event['Node']['type'],'slug'=>$event['Node']['slug'])); ?></b> - <?php echo $event['NodeEvent']['event_date']; ?></p>
-				
-				<?php if($event['Node']['excerpt']){ ?>
-					<p>
-					<?php echo $event['Node']['excerpt']; ?>
-					</p>
-				<?php } ?>
-			<?php
+		$month = '';
+		$year = '';
+		foreach($listevents as $event){
+			$y = date('Y',strtotime($event['NodeEvent']['event_date']));
+			$m = date('F',strtotime($event['NodeEvent']['event_date']));
+			$d = date('dS',strtotime($event['NodeEvent']['event_date']));
+			if($y != $year){
+				$year = $y;
+				echo '<h1>Upcoming Events in '.$year.'</h1>';
 			}
-		}
-		else
-		{
-		?>
-			<p>There are no events on this date.</p>
-		<?php
-		}
-		?>
-		
-		
-	<?php } else { ?>
-	
-		<h2>Upcoming Events</h2>
-		
-		<?php
-		if(count($upcomingevents) > 0){
-		
-			foreach($upcomingevents as $event){
-			?>
-				<p><b><?php echo $this->Html->link($event['Node']['title'],array('plugin'=>'nodes','controller'=>'nodes','action'=>'view','type'=>$event['Node']['type'],'slug'=>$event['Node']['slug'])); ?></b> - <?php echo $event['NodeEvent']['event_date']; ?></p>
-				
-				<?php if($event['Node']['excerpt']){ ?>
-					<p>
-					<?php echo $event['Node']['excerpt']; ?>
-					</p>
-				<?php } ?>
-			<?php
+
+			if($m != $month){
+				$month = $m;
+				echo '<h2>'.$month.'</h2>';
 			}
-		}
-		else
-		{
-		?>
-			<p>There are no upcoming events</p>
-		<?php
+
+			echo '<p>'.$this->Html->link('<span class="day">'.$d.'</span> '.$event['Node']['title'],array('plugin'=>'nodes','controller'=>'nodes','action'=>'view','type'=>$event['Node']['type'],'slug'=>$event['Node']['slug']),array('escape'=>false)).'</p>';	
+
 		}
 		?>
-		
-	<?php } ?>
-	
-	
-	
-	
-	
-</div>
-	
-<div class="grid-4">
 
-	<h2>Calendar</h2>
-
-	<?php echo $this->element('cal'); ?>
-
-	<p style="text-align:center;font-weight:bold;"><?php echo $this->Html->link('Show todays events',array('action'=>'index')); ?></p>
-</div>
-
-<div class="clear"></div>
-
-
+	</div>
