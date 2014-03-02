@@ -1,5 +1,3 @@
-<?php $this->Nodes->set($node); ?>
-
 	<div class="grid_4">
 		<?php echo $this->element('side'); ?>
 
