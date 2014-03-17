@@ -1,0 +1,17 @@
+{
+	"name": "liamkeily/node-events",
+	"type": "cakephp-plugin",
+	"description": "Croogo Events Plugin",
+	"homepage": "http://github.com/liamkeily/NodeEvents",
+	"license": "MIT",
+	"authors": [
+	{
+		"name": "Liam Keily",
+		"email": "liam@simplywebsites.com",
+		"homepage": "http://www.liamkeily.com"
+	}
+	],
+		"require": {
+			"php": ">=5.3.0"
+		}
+}
