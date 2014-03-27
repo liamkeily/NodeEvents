@@ -33,7 +33,7 @@ class EventsController extends AppController {
 			'limit'=>200,
 			'conditions'=>array(
 				'Node.type'=>'event',
-				'NodeEvent.event_date >'=>date('Y-m-d',time())
+				'NodeEvent.event_date >='=>date('Y-m-d',time())
 			),
 			'order'=>'NodeEvent.event_date asc'
 		));
